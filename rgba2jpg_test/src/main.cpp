@@ -6,8 +6,8 @@
 
 int main(){
 
-    int width = 2560;
-    int height = 1600;
+    int width = RGBA_WIDTH;
+    int height = RGBA_HEIGHT;
     int comp = 4; // RGBA
     char *data = new char[width * height * comp];
 
