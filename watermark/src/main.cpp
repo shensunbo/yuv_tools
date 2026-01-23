@@ -8,6 +8,9 @@
 #include <iomanip>
 #include <ctime>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 static std::string getCurrentTimeAsString();
 
 int main(){
@@ -33,9 +36,17 @@ int main(){
 
     Watermark waterMark;
     std::string timeWatermark = getCurrentTimeAsString();
+
+    // calcute time cost, us
+    auto start = std::chrono::high_resolution_clock::now();
+
     waterMark.Nv12AddDateWatermark(nv12Data.get(), width, height, timeWatermark.c_str());
 
-    std::string oFileName = "wm_" + std::to_string(width) + "x" + std::to_string(height) + "_nv12.yuv";
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+    mylog(I, "Watermarking took %ld microseconds.", duration);
+
+    std::string oFileName = std::string("trash/") + "wm_" + std::to_string(width) + "x" + std::to_string(height) + "_nv12.yuv";
     std::ofstream output(oFileName, std::ios::binary);
     if (!output) {
         mylog(E, "Error opening output file.");
@@ -43,6 +54,16 @@ int main(){
     }
     output.write(reinterpret_cast<char*>(nv12Data.get()), fileSize);
     output.close();
+
+    // write png for easy view
+    std::string pngFileName = std::string("trash/") + "wm_" + std::to_string(width) + "x" + std::to_string(height) + "_nv12.png";
+    int result = stbi_write_png(pngFileName.c_str(), width, height, 1, nv12Data.get(), width);
+    if (result == 1) {
+        mylog(I, "PNG image written successfully!");
+    } else {
+        mylog(E, "Error writing PNG image.");
+    }
+
 
     return 0;
 }

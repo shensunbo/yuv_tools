@@ -73,7 +73,8 @@ void Watermark::Nv12AddDateWatermark(unsigned char* nv12Buf, int width, int heig
                 if (text_alpha > 0) {
                     // Overlay text pixel on Y plane
                     index = (y_pos + i) * width + x + j;
-                    nv12Buf[index] = slot->bitmap.buffer[i * slot->bitmap.pitch + j];
+                    float alpha = slot->bitmap.buffer[i * slot->bitmap.pitch + j] / 255.0f;
+                    nv12Buf[index] = (unsigned char)((1.0f - alpha) * nv12Buf[index] + alpha * 255);
                     assert(index < picSize);
                 }
             }

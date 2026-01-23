@@ -20,15 +20,18 @@ cc_library(
 
 cc_binary(
     name = "watermark_app",
-    srcs = ["main.cpp"],
+    srcs = [
+        "main.cpp",
+        "stb_image_write.h"
+    ],
     deps = [
         ":watermark",
     ],
     copts = [
         "-I/usr/include/freetype2",
-        "-DNV12_PATH=\\\"./res/2560x1600_nv12.yuv\\\"",
-        "-DNV12_WIDTH=2560",
-        "-DNV12_HEIGHT=1600",
+        "-DNV12_PATH=\\\"./res/cam_1920x1536_nv12.raw\\\"",
+        "-DNV12_WIDTH=1920",
+        "-DNV12_HEIGHT=1536",
     ],
     linkopts = ["-lfreetype"],
 )
