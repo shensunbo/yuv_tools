@@ -64,8 +64,8 @@ void Watermark::Nv12AddDateWatermark(unsigned char* nv12Buf, int width, int heig
         int y_pos = m_y_pos - slot->bitmap_top;// Align the bottom
 
         // Merge text bitmap (monochrome) onto NV12 image with alpha masking
-        for (int i = 0; i < slot->bitmap.rows; i++) {
-            for (int j = 0; j < slot->bitmap.width; j++) {
+        for (unsigned int i = 0; i < slot->bitmap.rows; i++) {
+            for (unsigned int j = 0; j < slot->bitmap.width; j++) {
                 text_alpha = slot->bitmap.buffer[i * slot->bitmap.pitch + j];  // Alpha value (0-255) of text pixel
 
                 // Only overlay if text pixel is not fully transparent (adjust threshold as needed)

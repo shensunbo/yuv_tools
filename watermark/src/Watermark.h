@@ -1,7 +1,7 @@
 #ifndef __WATERMARK_H__
 #define __WATERMARK_H__
 
-#include <ft2build.h>
+#include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
 
 class Watermark{
